@@ -31,10 +31,24 @@
                 </select>
             </div>
 
-            <label for="content">Content</label>
-            <textarea value="{{ old('content', $post->content)}}" name="content" id="content" cols="30" rows="10" required>
+            <div >
+                @forelse ($tags as $tag )
+                    <label for="tags">{{ $tag->label}}</label>
+                    <input style="margin-right: 10px" type="checkbox" id="tag-{{$tag->label}}-{{$tag->id}}"
+                           name="tags"
+                           value="{{$tag->id}}">
+                @empty
 
-            </textarea>
+                @endforelse
+
+            </div>
+
+            <div class="d-flex flex-column w-25">
+                <label for="content">Content</label>
+                <textarea value="{{ old('content', $post->content)}}" name="content" id="content" cols="30" rows="10" required>
+
+                </textarea>
+            </div>
 
             {{-- <label for="slug">Slug</label>
             <input type="text" value="{{ old('slug', $post->slug)}}" name="slug" required> --}}

@@ -6,6 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\Tag;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CreatePostMail;
+use Illuminate\Pagination\Paginator;
 
 use Illuminate\Support\Str;
 
@@ -19,9 +25,10 @@ class PostController extends Controller
     public function index()
     {
         $datas = Post::all();
-        // $datas = Post::orderBy('updated_at', 'DESC')->paginate(4)->get();
-        $datas = Post::orderBy('updated_at', 'DESC')->get();
+        $datas = Post::orderBy('updated_at', 'DESC')->paginate(5);
+        //$datas = Post::orderBy('updated_at', 'DESC')->get();
         $categories = Category::all();
+
 
 
         return view('admin.posts.index', compact('datas','categories'));
@@ -35,8 +42,9 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.posts.create', compact('categories'));
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -66,8 +74,18 @@ class PostController extends Controller
 
 
         $posts = $request->all();
+        $user = Auth::user();
 
         $post = new Post();
+
+        // if(array_key_exist('image', $data)){
+
+        //     if($post->image) Storage::delete($post->image);
+
+        //     $image_url = Storage::put('post_images', $posts['image']);
+        //     $posts['image'] = $image_url;
+        // }
+
 
         $post->fill($posts);
 
@@ -75,6 +93,12 @@ class PostController extends Controller
         $post->slug = Str::slug($post->title, '-');
 
         $post->save();
+
+        if (array_key_exists('tags', $posts)) $post->tags()->attach($posts['tags']);
+
+        //invio mail
+        // $mail = new CreatePostMail( $post );
+        // Mail::to($user->email)->send($mail);
 
         return redirect()->route('admin.posts.index', compact('post'));
 
@@ -104,8 +128,9 @@ class PostController extends Controller
     {
 
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.posts.edit', compact('post', 'categories'));
+        return view('admin.posts.edit', compact('post', 'categories','tags'));
     }
 
     /**

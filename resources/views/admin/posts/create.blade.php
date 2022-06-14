@@ -4,11 +4,14 @@
 
     <div>
         <form style="display: flex; flex-direction: column; width: 80%; margin: 0 auto;"
-              action="{{ route('admin.posts.store')}}" method="POST">
-            @csrf
+              action="{{ route('admin.posts.store')}}" method="POST" enctype="multipart/form-data">
+              @csrf
+
+            {{-- <label for="image">Image</label>
+            <input type="file" id="image" name="image"> --}}
 
             <label for="image">Image</label>
-            <input type="text" value="" name="image">
+            <input type="text" value="" name="image" required>
 
             <label for="title">Title</label>
             <input type="text" value="" name="title">
@@ -23,10 +26,28 @@
                 </select>
             </div>
 
-            <label for="content">Content</label>
-            <textarea name="content" id="content" cols="30" rows="10">
+            <div>
+                @forelse ($tags as $tag )
+                    <label for="tags">{{ $tag->label}}</label>
+                    <input style="margin-right: 10px" type="checkbox" id="tag-{{$tag->label}}-{{$tag->id}}"
+                           value="{{$tag->id}}"
+                           name="tags[]"
+                           @if ( in_array($tag->id, old('tags', []) ))
+                           checked
+                           @endif>
+                @empty
 
-            </textarea>
+                @endforelse
+
+            </div>
+
+            <div class="d-flex flex-column w-25">
+                <label for="content">Content</label>
+                <textarea name="content" id="content" cols="30" rows="10">
+
+                </textarea>
+            </div>
+
 
             {{-- <label for="slug">Slug</label>
             <input type="text" value="" name="slug"> --}}

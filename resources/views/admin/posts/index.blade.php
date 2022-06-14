@@ -70,9 +70,9 @@
 
         @endforelse
 
-        {{-- @if ($data->hasPages())
-            {{$data->links()}}
-        @endif --}}
+        @if ($datas->hasPages())
+            {{$datas->links()}}
+        @endif
     </div>
 
 @endsection
