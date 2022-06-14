@@ -25,13 +25,14 @@
                 <th>title</th>
                 <th>category</th>
                 <th>content</th>
+                <th>tag</th>
                 <th>slug</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>
-                    <img src="{{ $data->image}}" alt="">
+                    <img src="{{ asset("storage/$data->image")}}" alt="">
                 </td>
                 <td>{{ $data->title}}</td>
                 <td>
@@ -42,6 +43,16 @@
                     @endif
                 </td>
                 <td>{{ $data->content}}</td>
+                <td>
+                    @forelse ($data->tags as $tag)
+                        <span class="badge badge-pill" style="background-color: {{$tag->color}};">
+                            {{$tag->label}}
+                        </span>
+
+                    @empty
+
+                    @endforelse
+                </td>
                 <td>{{ $data->slug}}</td>
                 <td>
                     <a class="badge badge-pill p-3 bg-primary text-white" href="{{route('admin.posts.show', $data->id)}}">

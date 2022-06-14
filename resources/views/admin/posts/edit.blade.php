@@ -35,8 +35,11 @@
                 @forelse ($tags as $tag )
                     <label for="tags">{{ $tag->label}}</label>
                     <input style="margin-right: 10px" type="checkbox" id="tag-{{$tag->label}}-{{$tag->id}}"
-                           name="tags"
-                           value="{{$tag->id}}">
+                           name="tags[]"
+                           value="{{$tag->id}}"
+                           @if ( in_array($tag->id, old('tags', $post_tag_id) ))
+                           checked
+                           @endif>
                 @empty
 
                 @endforelse

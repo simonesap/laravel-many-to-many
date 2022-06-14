@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CreatePostMail;
 use Illuminate\Pagination\Paginator;
-
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -44,6 +43,7 @@ class PostController extends Controller
         $categories = Category::all();
         $tags = Tag::all();
 
+
         return view('admin.posts.create', compact('categories', 'tags'));
     }
 
@@ -74,17 +74,19 @@ class PostController extends Controller
 
 
         $posts = $request->all();
+        // dd($posts);
+
         $user = Auth::user();
 
         $post = new Post();
 
-        // if(array_key_exist('image', $data)){
+        if(array_key_exist('image', $posts)){
 
-        //     if($post->image) Storage::delete($post->image);
+            // if($post->image) Storage::delete($post->image);
 
-        //     $image_url = Storage::put('post_images', $posts['image']);
-        //     $posts['image'] = $image_url;
-        // }
+            $image_url = Storage::put('post_images', $posts['image']);
+            $posts['image'] = $image_url;
+        }
 
 
         $post->fill($posts);
@@ -97,8 +99,8 @@ class PostController extends Controller
         if (array_key_exists('tags', $posts)) $post->tags()->attach($posts['tags']);
 
         //invio mail
-        // $mail = new CreatePostMail( $post );
-        // Mail::to($user->email)->send($mail);
+        $mail = new CreatePostMail( $post );
+        Mail::to($user->email)->send($mail);
 
         return redirect()->route('admin.posts.index', compact('post'));
 
@@ -130,7 +132,10 @@ class PostController extends Controller
         $categories = Category::all();
         $tags = Tag::all();
 
-        return view('admin.posts.edit', compact('post', 'categories','tags'));
+        $post_tag_id = $post->tags->pluck('id')->toArray();
+        // dd($post_tag_id);
+
+        return view('admin.posts.edit', compact('post', 'categories','tags', 'post_tag_id'));
     }
 
     /**
@@ -147,11 +152,14 @@ class PostController extends Controller
         ]);
 
         $data = $request->all();
+        // dd($data);
 
         //Generare slug con sintassi alternativa
         $post['slug'] = Str::slug($request->title, '-');
 
         $post->update($data);
+
+        if (array_key_exists('tags', $data)) $post->tags()->sync($data['tags']);
 
         return redirect()->route('admin.posts.index', $post)->with('message', "Hai aggiornato con successo $post->title");
 

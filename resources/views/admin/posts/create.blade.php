@@ -7,11 +7,11 @@
               action="{{ route('admin.posts.store')}}" method="POST" enctype="multipart/form-data">
               @csrf
 
-            {{-- <label for="image">Image</label>
-            <input type="file" id="image" name="image"> --}}
-
             <label for="image">Image</label>
-            <input type="text" value="" name="image" required>
+            <input type="file" id="image" name="image">
+
+            {{-- <label for="image">Image</label>
+            <input type="text" value="" name="image" required> --}}
 
             <label for="title">Title</label>
             <input type="text" value="" name="title">

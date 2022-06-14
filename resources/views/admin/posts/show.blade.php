@@ -10,6 +10,7 @@
                     <th>title</th>
                     <th>category</th>
                     <th>content</th>
+                    <th>tag</th>
                     <th>slug</th>
                 </tr>
             </thead>
@@ -28,7 +29,21 @@
                             Category null
                         @endif
                     </td>
+
                     <td>{{ $post->content}}</td>
+
+                    <td>
+                        @forelse ($post->tags as $tag)
+                            <span class="badge badge-pill" style="background-color: {{$tag->color}};">
+                                {{$tag->label}}
+                            </span>
+
+                        @empty
+
+                        @endforelse
+                    </td>
+
+
                     <td>{{ $post->slug}}</td>
                     <td>
                         <a class="badge badge-pill p-3 bg-success text-white" href="{{route('admin.posts.edit', $post->id)}}">
