@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Tag;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CreatePostMail;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -80,20 +81,19 @@ class PostController extends Controller
 
         $post = new Post();
 
-        if(array_key_exist('image', $posts)){
+        // Arr::exists($posts, 'image')
+        if(array_key_exists('image', $posts)){
 
             // if($post->image) Storage::delete($post->image);
 
             $image_url = Storage::put('post_images', $posts['image']);
             $posts['image'] = $image_url;
-        }
+        };
 
 
         $post->fill($posts);
-
         //Generare slug perchè non passato nel form
         $post->slug = Str::slug($post->title, '-');
-
         $post->save();
 
         if (array_key_exists('tags', $posts)) $post->tags()->attach($posts['tags']);
@@ -156,6 +156,15 @@ class PostController extends Controller
 
         //Generare slug con sintassi alternativa
         $post['slug'] = Str::slug($request->title, '-');
+
+         // Arr::exists($posts, 'image')
+         if(array_key_exists('image', $data)){
+
+            if($post->image) Storage::delete($post->image);
+
+            $image_url = Storage::put('post_images', $data['image']);
+            $data['image'] = $image_url;
+        }
 
         $post->update($data);
 

@@ -13,7 +13,7 @@
 
         <!-- Styles -->
         <style>
-            html, body {
+            /* html, body {
                 background-color: #fff;
                 color: #636b6f;
                 font-family: 'Nunito', sans-serif;
@@ -62,12 +62,13 @@
 
             .m-b-md {
                 margin-bottom: 30px;
-            }
+            } */
         </style>
+        <link rel="stylesheet" href="{{ asset('css/app.css')}}">
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
+            {{-- @if (Route::has('login')) --}}
 
                 {{-- <div class="top-left links">
                     @auth
@@ -81,7 +82,7 @@
                     @endauth
                 </div> --}}
 
-                <div class="top-right links">
+                {{-- <div class="top-right links">
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
@@ -92,7 +93,7 @@
                         @endif
                     @endauth
                 </div>
-            @endif
+            @endif --}}
 
             <div class="content">
                 {{-- Pagina in costruzione --}}
@@ -101,5 +102,7 @@
         </div>
         {{-- Richiamare Vue --}}
         <script src=" {{asset('js/front.js')}}"></script>
+        {{-- Richiamare Vil js di Bootstrap --}}
+        <script src=" {{asset('js/app.js')}}"></script>
     </body>
 </html>

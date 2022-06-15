@@ -32,7 +32,7 @@
             <tbody>
               <tr>
                 <td>
-                    <img src="{{ asset("storage/$data->image")}}" alt="">
+                    <img style="max-width: 100px;" src="{{ asset("storage/$data->image")}}" alt="">
                 </td>
                 <td>{{ $data->title}}</td>
                 <td>

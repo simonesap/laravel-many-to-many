@@ -1,4 +1,4 @@
-{{-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,10 +13,11 @@
 </head>
 <body>
 
-    <h2>Ciao hai creato un post: {{$post->title}}</h2>
-    <p>Categoria: {{$post->category->label}}</p>
+    {{-- <h2>Ciao hai creato un post: {{$post->title}}</h2>
+    <p>Categoria: {{$post->category->label}}</p> --}}
+    <h2>ciao</h2>
 
-    <ul>
+    {{-- <ul> --}}
         {{-- in questo caso è post in relazione a tag --}}
     {{-- @forelse ( $post->tags as $tag) --}}
         {{-- <li>{{ $tags->label }}</li> --}}
@@ -26,5 +27,5 @@
     {{-- </ul> --}}
 
 
-{{-- </body> --}}
-{{-- </html> --}}
+</body>
+</html>

@@ -4,12 +4,12 @@
 
     <div class="container">
         <form style="display: flex; flex-direction: column; width: 80%; margin: 0 auto;"
-              action="{{ route('admin.posts.update', $post->id)}}" method="POST">
+              action="{{ route('admin.posts.update', $post->id)}}" method="POST" enctype="multipart/form-data">
               @method('PUT')
                 @csrf
 
-            <label for="image">Image</label>
-            <input type="text" value="{{ old('image', $post->image)}}" name="image" required>
+                <label for="image">Image</label>
+                <input type="file" id="image" name="image">
 
             <label for="title">Title</label>
             <input type="text" value="{{ old('title', $post->title)}}" name="title" required>
@@ -48,8 +48,8 @@
 
             <div class="d-flex flex-column w-25">
                 <label for="content">Content</label>
-                <textarea value="{{ old('content', $post->content)}}" name="content" id="content" cols="30" rows="10" required>
-
+                <textarea value="" name="content" id="content" cols="30" rows="10" required>
+                    {{ old('content', $post->content)}}
                 </textarea>
             </div>
 
