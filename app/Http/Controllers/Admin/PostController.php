@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
+
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -98,7 +100,8 @@ class PostController extends Controller
 
         if (array_key_exists('tags', $posts)) $post->tags()->attach($posts['tags']);
 
-        //invio mail
+
+        // dd(env('MAIL_USERNAME'));
         $mail = new CreatePostMail( $post );
         Mail::to($user->email)->send($mail);
 

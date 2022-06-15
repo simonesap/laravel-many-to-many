@@ -56,7 +56,7 @@ import Loader from '../Loader.vue';
                     }).then( ()=>{
                         // console.log('terminato il caricamento dei posts')
                         this.isLoading = false;
-                    } )
+                    } );
 
             }
         },
